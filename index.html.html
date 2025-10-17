@@ -16,7 +16,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    // 
+    // ✅ CREDENCIAIS CONFIGURADAS
     const firebaseConfig = {
       apiKey: "AIzaSyAiP81VznPf_6CBUiXbC_Fes_tXzQyIPV8",
       authDomain: "gest-5fa93.firebaseapp.com",
@@ -364,12 +364,12 @@
                         <input type="checkbox" checked={l.ativo} onChange={() => alternarAtivo(l.id, l.ativo)} className="w-4 h-4" />
                       </td>
                       <td className="px-3 py-2">
-                        {editando===l.id ? <input value={temp.escola} onChange={e => setTemp({...temp, escola: e.target.value})} className="w-full px-2 py-1 border rounded" /> : <div className="cursor-pointer" onClick={() => iniciarEdicao(l)}>{l.escola || '-'}</div>}
+                        {editando===l.id ? <input value={temp?.escola || ''} onChange={e => setTemp({...temp, escola: e.target.value})} className="w-full px-2 py-1 border rounded" /> : <div className="cursor-pointer" onClick={() => iniciarEdicao(l)}>{l.escola || '-'}</div>}
                       </td>
                       <td className="px-3 py-2">
                         {editando===l.id ? (
                           <div className="border rounded p-2 max-h-40 overflow-y-auto">
-                            {estados.map(e => <label key={e} className="flex items-center gap-1 text-xs"><input type="checkbox" checked={(temp.estados||[]).includes(e)} onChange={() => {const est = temp.estados||[]; setTemp({...temp, estados: est.includes(e) ? est.filter(x=>x!==e) : [...est,e]})}} />{e}</label>)}
+                            {estados.map(e => <label key={e} className="flex items-center gap-1 text-xs"><input type="checkbox" checked={(temp?.estados||[]).includes(e)} onChange={() => {const est = temp?.estados||[]; setTemp({...temp, estados: est.includes(e) ? est.filter(x=>x!==e) : [...est,e]})}} />{e}</label>)}
                           </div>
                         ) : (
                           <div className="flex flex-wrap gap-1">{(l.estados||[]).map(e => <span key={e} className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded text-xs">{e}</span>)}</div>
@@ -377,7 +377,7 @@
                       </td>
                       <td className="px-3 py-2">
                         {editando===l.id ? (
-                          <select value={temp.status} onChange={e => setTemp({...temp, status: e.target.value})} className={`w-full px-2 py-1 border rounded text-xs font-bold ${statusCores[temp.status]}`}>
+                          <select value={temp?.status || 'Pendente de Análise'} onChange={e => setTemp({...temp, status: e.target.value})} className={`w-full px-2 py-1 border rounded text-xs font-bold ${statusCores[temp?.status || 'Pendente de Análise']}`}>
                             <option value="Pendente de Análise">Pendente de Análise</option>
                             <option value="Aprovado para Renovação">Aprovado para Renovação</option>
                             <option value="Não Renovar">Não Renovar</option>
@@ -393,17 +393,17 @@
                           </span>
                         )}
                       </td>
-                      <td className="px-3 py-2">{editando===l.id ? <input type="date" value={temp.dataContato} onChange={e => setTemp({...temp, dataContato: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : formatarData(l.dataContato)}</td>
-                      <td className="px-3 py-2">{editando===l.id ? <input type="date" value={temp.dataRenovacao} onChange={e => setTemp({...temp, dataRenovacao: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : formatarData(l.dataRenovacao)}</td>
-                      <td className="px-3 py-2">{editando===l.id ? <input type="date" value={temp.dataInsercao} onChange={e => setTemp({...temp, dataInsercao: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : formatarData(l.dataInsercao)}</td>
+                      <td className="px-3 py-2">{editando===l.id ? <input type="date" value={temp?.dataContato || ''} onChange={e => setTemp({...temp, dataContato: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : formatarData(l.dataContato)}</td>
+                      <td className="px-3 py-2">{editando===l.id ? <input type="date" value={temp?.dataRenovacao || ''} onChange={e => setTemp({...temp, dataRenovacao: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : formatarData(l.dataRenovacao)}</td>
+                      <td className="px-3 py-2">{editando===l.id ? <input type="date" value={temp?.dataInsercao || ''} onChange={e => setTemp({...temp, dataInsercao: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : formatarData(l.dataInsercao)}</td>
                       <td className="px-3 py-2">
                         {editando===l.id ? (
                           <div>
                             <label className="flex items-center gap-1 mb-1 bg-purple-50 p-1 rounded border">
-                              <input type="checkbox" checked={temp.validadeIndeterminada} onChange={() => setTemp({...temp, validadeIndeterminada: !temp.validadeIndeterminada, dataValidade: temp.validadeIndeterminada ? temp.dataValidade : ''})} />
+                              <input type="checkbox" checked={temp?.validadeIndeterminada || false} onChange={() => setTemp({...temp, validadeIndeterminada: !temp?.validadeIndeterminada, dataValidade: temp?.validadeIndeterminada ? temp.dataValidade : ''})} />
                               <span className="text-xs font-bold text-purple-700">♾️ Indeterminada</span>
                             </label>
-                            {!temp.validadeIndeterminada && <input type="date" value={temp.dataValidade} onChange={e => setTemp({...temp, dataValidade: e.target.value})} className="w-full px-2 py-1 border rounded text-xs" />}
+                            {!temp?.validadeIndeterminada && <input type="date" value={temp?.dataValidade || ''} onChange={e => setTemp({...temp, dataValidade: e.target.value})} className="w-full px-2 py-1 border rounded text-xs" />}
                           </div>
                         ) : l.validadeIndeterminada ? (
                           <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-bold border border-purple-300">♾️ Indeterminada</span>
@@ -416,11 +416,11 @@
                           return <div><span className={`${cor} px-2 py-1 rounded-full text-xs font-bold border`}>{emoji} {formatarData(l.dataValidade)}</span><div className="text-xs text-gray-500 mt-1">{d<0?`Venceu há ${Math.abs(d)} dias`:`${d} dias`}</div></div>;
                         })() : '-'}
                       </td>
-                      <td className="px-3 py-2">{editando===l.id ? <input value={temp.responsavel} onChange={e => setTemp({...temp, responsavel: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.responsavel || '-'}</td>
-                      <td className="px-3 py-2">{editando===l.id ? <input value={temp.contatoResponsavel} onChange={e => setTemp({...temp, contatoResponsavel: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.contatoResponsavel || '-'}</td>
-                      <td className="px-3 py-2">{editando===l.id ? <input type="email" value={temp.emailResponsavel} onChange={e => setTemp({...temp, emailResponsavel: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.emailResponsavel ? <a href={`mailto:${l.emailResponsavel}`} className="text-blue-600 underline text-xs">{l.emailResponsavel}</a> : '-'}</td>
-                      <td className="px-3 py-2">{editando===l.id ? <input type="url" value={temp.linkContrato} onChange={e => setTemp({...temp, linkContrato: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.linkContrato ? <a href={l.linkContrato} target="_blank" className="text-blue-600 underline text-xs">🔗 Contrato</a> : '-'}</td>
-                      <td className="px-3 py-2">{editando===l.id ? <input value={temp.observacoes} onChange={e => setTemp({...temp, observacoes: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.observacoes || '-'}</td>
+                      <td className="px-3 py-2">{editando===l.id ? <input value={temp?.responsavel || ''} onChange={e => setTemp({...temp, responsavel: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.responsavel || '-'}</td>
+                      <td className="px-3 py-2">{editando===l.id ? <input value={temp?.contatoResponsavel || ''} onChange={e => setTemp({...temp, contatoResponsavel: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.contatoResponsavel || '-'}</td>
+                      <td className="px-3 py-2">{editando===l.id ? <input type="email" value={temp?.emailResponsavel || ''} onChange={e => setTemp({...temp, emailResponsavel: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.emailResponsavel ? <a href={`mailto:${l.emailResponsavel}`} className="text-blue-600 underline text-xs">{l.emailResponsavel}</a> : '-'}</td>
+                      <td className="px-3 py-2">{editando===l.id ? <input type="url" value={temp?.linkContrato || ''} onChange={e => setTemp({...temp, linkContrato: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.linkContrato ? <a href={l.linkContrato} target="_blank" className="text-blue-600 underline text-xs">🔗 Contrato</a> : '-'}</td>
+                      <td className="px-3 py-2">{editando===l.id ? <input value={temp?.observacoes || ''} onChange={e => setTemp({...temp, observacoes: e.target.value})} className="px-2 py-1 border rounded text-xs" /> : l.observacoes || '-'}</td>
                       <td className="px-3 py-2 text-center">
                         {editando===l.id ? (
                           <div className="flex gap-1 justify-center">
